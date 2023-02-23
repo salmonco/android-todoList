@@ -1,5 +1,6 @@
 package com.example.todolist;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                     Toast.makeText(v.getContext(),"삭제되었습니다.",Toast.LENGTH_SHORT).show();
                 }
 
+                Context context;
+
                 private void deleteToDo(String TODO) {
+                    String deleteSql = "delete from " + NoteDatabase.TABLE_NOTE + " where " + "  TODO = '" + TODO + "'";
+                    NoteDatabase database = NoteDatabase.getInstance(context);
+                    database.execSQL(deleteSql);
                 }
             });
         }
