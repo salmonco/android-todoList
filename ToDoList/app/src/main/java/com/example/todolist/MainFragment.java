@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,8 @@ public class MainFragment extends Fragment {
     NoteAdapter adapter;
     Context context;
 
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // inflate() 메서드를 이용하여 fragment_main.xml로 연결
@@ -27,6 +30,16 @@ public class MainFragment extends Fragment {
 
         initUI(rootView);
         loadNoteListData();
+
+        // 당겨서 새로고침
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadNoteListData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         return rootView;
     }
